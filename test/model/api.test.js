@@ -1,4 +1,4 @@
-const api = require('../../source/model/api');
+const api = require('../../src/model/api');
 
 require('dotenv').config();
 
