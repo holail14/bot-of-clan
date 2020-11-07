@@ -1,38 +1,25 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Rapport de bug
+about: Créer un rapport de bug pour nous aider à améliorer le bot.
 title: ''
-labels: ''
+labels: 'triage'
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Décriver le bug**
+Décriver aussi simplement que possible le bug rencontré.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Reproduire le bug**
+Dites noutes comment reproduire le bug :
+- Commande utilisée
+- Fonctionnalité attendue 
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Résultat attendu**
+Le résultat attendu.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+Si possible, ajouter une capture d'écran afin qu'on puisse visualer la sitatuion.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+**Périphérique**
+Indique nous si vous utilisez Discord sur navigateur web, téléphone ou via l'application de bureau.

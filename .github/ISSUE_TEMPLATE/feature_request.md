@@ -1,20 +1,17 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Suggestion
+about: Suggérer une fonctionnalité à ajouter au bot
 title: ''
-labels: ''
+labels: 'triage'
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Votre suggestion est liée à un problème rencontré ? Décrivez le**
+Une description simple et consise du problème. Ex : je suis frustré que...
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Décrivez la solution souhaité**
+Une description clair de la solution souhaitée.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Informations additionnelles**
+N'hésitez par à ajouter toutes informations qui vous semble utiles.
