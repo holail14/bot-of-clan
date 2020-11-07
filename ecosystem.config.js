@@ -7,7 +7,7 @@ module.exports = {
   deploy : {
     production : {
       user : 'root',
-      host : 'oceandigital',
+      host : '138.68.111.64',
       ref  : 'origin/master',
       repo : 'https://github.com/clementvtrd/',
       path : '/root/bot-of-clans',
