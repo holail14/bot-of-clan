@@ -1,0 +1,38 @@
+{
+  "name": "bot-of-clans",
+  "version": "1.0.0",
+  "description": "Useful Discord bot for Clash of Clans",
+  "private": true,
+  "scripts": {
+    "start": "node src/bot.js",
+    "test": "mocha --recursive test",
+    "watch": "nodemon src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clementvtrd/bot-of-clans.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "clash",
+    "of",
+    "clans",
+    "coc"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/clementvtrd/bot-of-clans/issues"
+  },
+  "homepage": "https://github.com/clementvtrd/bot-of-clans#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.6.2"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  }
+}
