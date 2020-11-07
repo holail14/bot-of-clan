@@ -16,7 +16,7 @@ type : \`joueur\` ou \`clan\`
 tag :
 - pour un joueur : dans le profil, en haut à gauche en dessous du pseudo
 - pour le clan : il s'agit du tag trouvé sous le nom du clan
-Chacun des tags commencent par un #, il faut l'inclure.`);
+Chacun des tags commencent par un #, il ne faut pas l'inclure. :wink:`);
 }
 
 module.exports = function link(message) {
