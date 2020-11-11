@@ -31,7 +31,15 @@ async function linkPlayer(id, tag) {
   return await clans.updateOne(filter, updateTag, options);
 }
 
+async function getPlayer(id) {
+  const database = client.db('bot-of-clans');
+  const players = database.collection('players');
+  const filter = { id: id };
+  return await players.findOne(filter);
+}
+
 module.exports = {
   linkPlayer,
-  linkClan
+  linkClan,
+  getPlayer,
 }
