@@ -1,5 +1,5 @@
 ![Tests](https://github.com/clementvtrd/bot-of-clans/workflows/Tests/badge.svg)
-![Chat](https://img.shields.io/discord/774740325469650976)
+![Discord](https://img.shields.io/discord/774740325469650976?label=Discord)
 
 # Bot of clans
 
