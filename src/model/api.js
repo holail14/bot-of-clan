@@ -13,23 +13,23 @@ function fetch(uri) {
 }
 
 function members (tag) {
-  return fetch(`clans/${tag}/members`);
+  return fetch(`clans/%23${tag}/members`);
 }
 
 function warlog (tag) {
-  return fetch(`clans/${tag}/warlog`);
+  return fetch(`clans/%23${tag}/warlog`);
 }
 
 function clan (tag) {
-  return fetch(`clans/${tag}`);
+  return fetch(`clans/%23${tag}`);
 }
 
 function currentwar (tag) {
-  return fetch(`clans/${tag}/currentwar`);
+  return fetch(`clans/%23${tag}/currentwar`);
 }
 
 function player (tag) {
-  return fetch(`players/${tag}`);
+  return fetch(`players/%23${tag}`);
 }
 
 module.exports = {
