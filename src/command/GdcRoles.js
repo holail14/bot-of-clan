@@ -1,9 +1,46 @@
 const database = require('../model/storage');
 const api = require('../model/api');
 
-function update_roles(message, server_id) {
+
+function delete_old_role(message, server_id) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let disponible = message.guild.roles.cache.find(role => role.name === "Disponible"); //get the good role
+            let indisponible = message.guild.roles.cache.find(role => role.name === "Indisponible"); //get the good role
+            database.getClan(server_id).then((value) => { //get the clan tag
+                if (value && value.tag) {
+                    api.clan(value.tag).then((response) => { //get info of clan
+                        for (let i in response.data.memberList) {
+                            let member = response.data.memberList[i];
+                            let tag = member.tag.replace('#', '');
+                            database.getPlayerByTag(tag).then((user) => { //get discord id of coc player
+                                if (user) {
+                                    message.guild.members.fetch(user.id).then((discordMember) => {
+                                        if (discordMember) {
+                                            discordMember.roles.add(indisponible.id)
+                                            discordMember.roles.remove(disponible.id)
+                                        }
+                                    });
+                                }
+                            }).catch((error) => { console.log(error) });
+                        }
+                        resolve();
+                    }
+                    ).catch((error) => { console.log(error) });
+                } else {
+                    resolve();
+                }
+            })
+                .catch(console.error);
+        }, 2000);
+    });
+}
+
+async function update_roles(message, server_id) {
+    await delete_old_role(message, server_id)
     let channel = message.channel;
-    let role = message.guild.roles.cache.find(role => role.name === "Disponible"); //get the good role
+    let disponible = message.guild.roles.cache.find(role => role.name === "Disponible"); //get the good role
+    let indisponible = message.guild.roles.cache.find(role => role.name === "Indisponible"); //get the good role
     database.getClan(server_id).then((value) => { //get the clan tag
         if (value && value.tag) {
             api.currentwar(value.tag).then((response) => { //get info of current war
@@ -14,8 +51,8 @@ function update_roles(message, server_id) {
                         if (user) {
                             message.guild.members.fetch(user.id).then((discordMember) => {
                                 if (discordMember) {
-                                    console.log(member);
-                                    discordMember.roles.add(role.id)
+                                    discordMember.roles.remove(indisponible.id)
+                                    discordMember.roles.add(disponible.id)
                                 }
                             });
                         }
@@ -23,7 +60,6 @@ function update_roles(message, server_id) {
                 }
                 let update = `Les rôles ont bien été mis à jour pour la GDC contre ${response.data.opponent.name}.`;
                 channel.send(update);
-                console.log(response.data);
             }
             ).catch((error) => { console.log(error) });
         } else {
