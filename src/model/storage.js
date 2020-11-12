@@ -2,9 +2,8 @@ const { MongoClient } = require('mongodb');
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}?retryWrites=true&w=majority`;
 
-const client = new MongoClient(uri, { useUnifiedTopology: true });
-
 async function linkClan(id, tag) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
     await client.connect()
     const database = client.db('bot-of-clans');
@@ -24,6 +23,7 @@ async function linkClan(id, tag) {
 }
 
 async function linkPlayer(id, tag) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
     await client.connect()
     const database = client.db('bot-of-clans');
@@ -42,6 +42,7 @@ async function linkPlayer(id, tag) {
 }
 
 async function getPlayer(id) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
     await client.connect()
     const database = client.db('bot-of-clans');

@@ -1,12 +1,18 @@
 const database = require('../model/storage');
 
-function clan(server, tag) {
+function clan(server, tag, channel) {
   database.linkClan(server, tag)
+    .then(() => {
+      channel.send("Votre serveur est désormais lié !");
+    })
     .catch(console.error);
 }
 
-function player(user, tag) {
+function player(user, tag, channel) {
   database.linkPlayer(user, tag)
+    .then(() => {
+      channel.send("Vous êtes désormais lié à votre profil !");
+    })
     .catch(console.error);
 }
 
@@ -29,8 +35,8 @@ module.exports = function link(message) {
     if (typeof type === 'undefined' || typeof tag === 'undefined')
       help(message.channel);
     else {
-      if (type === 'joueur') player(message.author.id, tag);
-      else if (type === 'clan') clan(message.author.id, tag);
+      if (type === 'joueur') player(message.author.id, tag, message.channel);
+      else if (type === 'clan') clan(message.author.id, tag, message.channel);
       else help(message.channel);
     }
   }
