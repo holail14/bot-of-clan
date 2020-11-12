@@ -1,3 +1,5 @@
 module.exports = {
-  link: require('./link')
+  link: require('./link'),
+  profil: require('./profil'),
+  niveau: require('./level')
 };
