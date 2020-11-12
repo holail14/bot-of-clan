@@ -53,9 +53,36 @@ async function getPlayer(id) {
     client.close();
   }
 }
+async function getPlayerByTag(tag) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const players = database.collection('players');
+    const filter = { tag: tag };
+    return await players.findOne(filter);
+  } finally {
+    client.close();
+  }
+}
+
+async function getClan(id) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect()
+    const database = client.db('bot-of-clans');
+    const players = database.collection('clans');
+    const filter = { id: id };
+    return await players.findOne(filter);
+  } finally {
+    client.close();
+  }
+}
 
 module.exports = {
   linkPlayer,
   linkClan,
   getPlayer,
+  getPlayerByTag,
+  getClan
 }
