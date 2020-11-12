@@ -36,7 +36,7 @@ module.exports = function link(message) {
       help(message.channel);
     else {
       if (type === 'joueur') player(message.author.id, tag, message.channel);
-      else if (type === 'clan') clan(message.author.id, tag, message.channel);
+      else if (type === 'clan') clan(message.guild.id, tag, message.channel);
       else help(message.channel);
     }
   }
