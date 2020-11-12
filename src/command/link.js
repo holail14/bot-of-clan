@@ -17,7 +17,7 @@ function player(user, tag, channel) {
 }
 
 function help(channel) {
-  channel.send(`\`coc!link [type] [tag]\`
+  channel.send(`\`coc!lier [type] [tag]\`
 type : \`joueur\` ou \`clan\`
 tag :
 - pour un joueur : dans le profil, en haut à gauche en dessous du pseudo
@@ -25,9 +25,9 @@ tag :
 Chacun des tags commencent par un #, il ne faut pas l'inclure. :wink:`);
 }
 
-module.exports = function link(message) {
+module.exports = function lier(message) {
   const tokens = message.content.split(' ');
-  if (tokens[1] === 'help') {
+  if (tokens[1] === 'aide') {
     help(message.channel);
   } else {
     const type = tokens[1];
