@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}?retryWrites=true&w=majority`;
 
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, { useUnifiedTopology: true });
 
 async function linkClan(id, tag) {
   try {
