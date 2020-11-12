@@ -42,10 +42,15 @@ async function linkPlayer(id, tag) {
 }
 
 async function getPlayer(id) {
-  const database = client.db('bot-of-clans');
-  const players = database.collection('players');
-  const filter = { id: id };
-  return await players.findOne(filter);
+  try {
+    await client.connect()
+    const database = client.db('bot-of-clans');
+    const players = database.collection('players');
+    const filter = { id: id };
+    return await players.findOne(filter);
+  } finally {
+    client.close();
+  }
 }
 
 module.exports = {

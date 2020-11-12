@@ -5,7 +5,7 @@ const translation = require('../translation/translation');
 function send_profile(channel, user_id) {
     database.getPlayer(user_id).then((value) => {
         if (value && value.tag) {
-            api.player('%23' + value.tag).then((response) => {
+            api.player(value.tag).then((response) => {
                 let profil = `Salut \`${response.data.name}\` !
 Pas mal cet HDV ${response.data.townHallLevel}, alors que tu es seulement niveau ${response.data.expLevel}.
 Actuellement tu as ${response.data.trophies} trophées, mais tu as réussi à aller jusqu'à ${response.data.bestTrophies} trophées :open_mouth:

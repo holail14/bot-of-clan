@@ -5,7 +5,7 @@ const translation = require('../translation/translation');
 function level(channel, user_id, type) {
     database.getPlayer(user_id).then((value) => {
         if (value && value.tag) {
-            api.player('%23' + value.tag).then((response) => {
+            api.player(value.tag).then((response) => {
                 let niveau = ``;
                 if (type == 'troupes') {
                     niveau += `Vraiment pas mal ces troupes \`${response.data.name}\` . Tu as :`;
