@@ -7,20 +7,15 @@ function delete_old_role(message, server_id) {
         setTimeout(() => {
             let disponible = message.guild.roles.cache.find(role => role.name === "Disponible"); //get the good role
             let indisponible = message.guild.roles.cache.find(role => role.name === "Indisponible"); //get the good role
-            database.getClan(server_id).then((value) => { //get the clan tag
+            database.getClan(server_id).then(async (value) => { //get the clan tag
                 if (value && value.tag) {
-                    api.clan(value.tag).then((response) => { //get info of clan
+                    await api.clan(value.tag).then(async (response) => { //get info of clan
                         for (let i in response.data.memberList) {
                             let member = response.data.memberList[i];
                             let tag = member.tag.replace('#', '');
-                            database.getPlayerByTag(tag).then((user) => { //get discord id of coc player
+                            await database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
                                 if (user) {
-                                    message.guild.members.fetch(user.id).then((discordMember) => {
-                                        if (discordMember) {
-                                            discordMember.roles.add(indisponible.id)
-                                            discordMember.roles.remove(disponible.id)
-                                        }
-                                    });
+                                    await editRoles(message, user.id, indisponible, disponible);
                                 }
                             }).catch((error) => { console.log(error) });
                         }
@@ -32,7 +27,7 @@ function delete_old_role(message, server_id) {
                 }
             })
                 .catch(console.error);
-        }, 2000);
+        }, 500);
     });
 }
 
@@ -47,14 +42,9 @@ async function update_roles(message, server_id) {
                 for (let i in response.data.clan.members) {
                     let member = response.data.clan.members[i];
                     let tag = member.tag.replace('#', '');
-                    database.getPlayerByTag(tag).then((user) => { //get discord id of coc player
+                    database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
                         if (user) {
-                            message.guild.members.fetch(user.id).then((discordMember) => {
-                                if (discordMember) {
-                                    discordMember.roles.remove(indisponible.id)
-                                    discordMember.roles.add(disponible.id)
-                                }
-                            });
+                            await editRoles(message, user.id, disponible, indisponible);
                         }
                     }).catch((error) => { console.log(error) });
                 }
@@ -69,8 +59,22 @@ async function update_roles(message, server_id) {
         .catch(console.error);
 }
 
+function editRoles(message, user_id, roleToAdd, roleToRemove) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            message.guild.members.fetch(user_id).then((discordMember) => {
+                if (discordMember) {
+                    discordMember.roles.add(roleToAdd.id)
+                    discordMember.roles.remove(roleToRemove.id)
+                }
+                resolve();
+            });
+        }, 500);
+    })
+}
+
 function helpUndefinedTag(channel) {
-    channel.send(`J'ai beau être sorcier, je ne suis pas devin. Pense à ajouter ton tag de Clan (Utilise la commande \`coc!link help\`)`);
+    channel.send(`J'ai beau être sorcier, je ne suis pas devin. Pense à ajouter ton tag de Clan (Utilise la commande \`coc!lier aide\`)`);
 }
 
 function help(channel) {

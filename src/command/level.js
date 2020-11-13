@@ -45,7 +45,7 @@ function level(channel, user_id, type) {
 }
 
 function helpUndefinedTag(channel) {
-    channel.send(`J'ai beau être sorcier, je ne suis pas devin. Pense à ajouter ton tag de Clash of Clan (Utilise la commande \`coc!link help\`)`);
+    channel.send(`J'ai beau être sorcier, je ne suis pas devin. Pense à ajouter ton tag de Clash of Clan (Utilise la commande \`coc!lier aide\`)`);
 }
 
 function help(channel) {
