@@ -40,7 +40,7 @@ async function linkPlayer(id, tag) {
   }
 }
 
-async function addBuilding(id, building, startTime, endTime) {
+async function addBuilding(id,  building, startTime, endTime) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
     await client.connect()
@@ -66,7 +66,10 @@ async function getBuildings(id) {
     await client.connect()
     const database = client.db('bot-of-clans');
     const buildings = database.collection('buildings');
-    const filter = { id: id };
+    let filter = {};
+    if(id != ''){
+      filter = { id: id };
+    }
     const options = {
       sort: { start_date: 1 },
       projection: { _id: 0 },
