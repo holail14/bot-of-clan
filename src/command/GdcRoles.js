@@ -17,11 +17,11 @@ function delete_old_role(message, server_id) {
                                 if (user) {
                                     await editRoles(message, user.id, indisponible, disponible);
                                 }
-                            }).catch((error) => { console.log(error) });
+                            }).catch(console.error);
                         }
                         resolve();
                     }
-                    ).catch((error) => { console.log(error) });
+                    ).catch(console.error);
                 } else {
                     resolve();
                 }
@@ -38,20 +38,20 @@ async function update_roles(message, server_id) {
     let indisponible = message.guild.roles.cache.find(role => role.name === "Indisponible"); //get the good role
     database.getClan(server_id).then((value) => { //get the clan tag
         if (value && value.tag) {
-            api.currentwar(value.tag).then((response) => { //get info of current war
+            api.currentwar(value.tag).then(async (response) => { //get info of current war
                 for (let i in response.data.clan.members) {
                     let member = response.data.clan.members[i];
                     let tag = member.tag.replace('#', '');
-                    database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
+                    await database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
                         if (user) {
                             await editRoles(message, user.id, disponible, indisponible);
                         }
-                    }).catch((error) => { console.log(error) });
+                    }).catch(console.error);
                 }
                 let update = `Les rôles ont bien été mis à jour pour la GDC contre ${response.data.opponent.name}.`;
                 channel.send(update);
             }
-            ).catch((error) => { console.log(error) });
+            ).catch(console.error);
         } else {
             helpUndefinedTag(channel);
         }
@@ -67,6 +67,9 @@ function editRoles(message, user_id, roleToAdd, roleToRemove) {
                     discordMember.roles.add(roleToAdd.id)
                     discordMember.roles.remove(roleToRemove.id)
                 }
+                resolve();
+            }).catch((error) => {
+                console.log('Utilisateur inconnu');
                 resolve();
             });
         }, 500);
@@ -88,6 +91,7 @@ module.exports = function profil(message) {
     if (tokens[1]) {
         help(message.channel);
     } else {
+        message.channel.send(`Mise à jour des rôles en cours. :arrows_counterclockwise: `);
         update_roles(message, message.guild.id);
     }
 }
