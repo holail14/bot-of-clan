@@ -56,7 +56,7 @@ retourne les niveaux des troupes, sorts ou héros :muscle:`);
 
 module.exports = function levels(message) {
     const tokens = message.content.split(' ');
-    if (tokens[1] === 'help') {
+    if (tokens[1] === 'aide') {
         help(message.channel);
     } else {
         const type = tokens[1];
