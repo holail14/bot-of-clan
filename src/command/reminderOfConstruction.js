@@ -3,44 +3,45 @@ const database = require('../model/storage');
 function convertToMS(duration) {
     let ms = 0;
     if (duration.includes('d')) {
-        day = duration.split('d');
+        let day = duration.split('d');
         day = day[0];
         ms += day * 86400000;
     }
     if (duration.includes('h')) {
-        hour = duration.substr(duration.indexOf('h') - 2, 2);
+        let hour = duration.substr(duration.indexOf('h') - 2, 2);
         ms += hour * 3600000;
     }
     if (duration.includes('m')) {
-        minute = duration.substr(duration.indexOf('m') - 2, 2);
+        let minute = duration.substr(duration.indexOf('m') - 2, 2);
         ms += minute * 60000;
     }
     if (duration.includes('s')) {
-        seconde = duration.substr(duration.indexOf('s') - 2, 2);
+        let seconde = duration.substr(duration.indexOf('s') - 2, 2);
         ms += seconde * 1000;
     }
 
     return ms;
 }
+
 function reverseMs(duration) {
     let string = 0;
     if (duration > 86400000) {
-        day = Math.floor(duration / 86400000);
+        let day = Math.floor(duration / 86400000);
         duration = duration % 86400000;
         string += day + 'd';
     }
     if (duration > 3600000) {
-        hour = Math.floor(duration / 3600000);
+        let hour = Math.floor(duration / 3600000);
         string += hour + 'h';
         duration = duration % 3600000;
     }
     if (duration > 60000) {
-        minute = Math.floor(duration / 60000);
+        let minute = Math.floor(duration / 60000);
         string += minute + 'm';
         duration = duration % 60000;
     }
     if (duration > 1000) {
-        seconde = Math.floor(duration / 1000);
+        let seconde = Math.floor(duration / 1000);
         string += seconde + 's';
     }
 
@@ -51,18 +52,18 @@ async function reminderOfBuildings(id, author) {
     database.getBuildings(id).then((buildings) => {
         if (buildings.length == 0) {
             author.createDM().then(channel => {
-                channel.send(`Aucun de vos bâtiments n'est en construction.`);
-            })
+                channel.send('Aucun de vos bâtiments n\'est en construction.');
+            });
         } else {
-            let msg = "Vos bâtiments en construction : ";
+            let msg = 'Vos bâtiments en construction : ';
             buildings.forEach(building => {
                 msg += `
-                - ${building.building}, se termine dans ${reverseMs(building.endTime - Date.now())}.`
-            })
+                - ${building.building}, se termine dans ${reverseMs(building.endTime - Date.now())}.`;
+            });
             
             author.createDM().then(channel => {
-                channel.send(msg)
-            })
+                channel.send(msg);
+            });
         }
     });
 }
@@ -94,15 +95,15 @@ module.exports = function rappel(message) {
         else {
             let ms_duration = convertToMS(duration);
             let startTime = Date.now();
-            let endTime = startTime + ms_duration
-            database.addBuilding(message.author.id, building, startTime, endTime)
-            message.channel.send(`Ton ouvrier va terminer l'amélioration de ${building} dans ${duration}`)
+            let endTime = startTime + ms_duration;
+            database.addBuilding(message.author.id, building, startTime, endTime);
+            message.channel.send(`Ton ouvrier va terminer l'amélioration de ${building} dans ${duration}`);
             setTimeout(() => {
                 message.author.createDM().then(channel => {
-                    channel.send(`Hey ${message.author.toString()}, ton ouvrier a terminé l'amélioration de ${building}`)
-                })
-                database.deleteBuilding(message.author.id, building, startTime, endTime)
+                    channel.send(`Hey ${message.author.toString()}, ton ouvrier a terminé l'amélioration de ${building}`);
+                });
+                database.deleteBuilding(message.author.id, building, startTime, endTime);
             }, ms_duration);
         }
     }
-}
+};
