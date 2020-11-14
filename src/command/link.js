@@ -3,7 +3,7 @@ const database = require('../model/storage');
 function clan(server, tag, channel) {
   database.linkClan(server, tag)
     .then(() => {
-      channel.send("Votre serveur est désormais lié !");
+      channel.send('Votre serveur est désormais lié !');
     })
     .catch(console.error);
 }
@@ -11,7 +11,7 @@ function clan(server, tag, channel) {
 function player(user, tag, channel) {
   database.linkPlayer(user, tag)
     .then(() => {
-      channel.send("Vous êtes désormais lié à votre profil !");
+      channel.send('Vous êtes désormais lié à votre profil !');
     })
     .catch(console.error);
 }
@@ -40,4 +40,4 @@ module.exports = function lier(message) {
       else help(message.channel);
     }
   }
-}
+};

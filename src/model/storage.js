@@ -5,7 +5,7 @@ const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@$
 async function linkClan(id, tag) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const clans = database.collection('clans');
     const filter = { id: id };
@@ -24,7 +24,7 @@ async function linkClan(id, tag) {
 async function linkPlayer(id, tag) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const clans = database.collection('players');
     const filter = { id: id };
@@ -33,7 +33,7 @@ async function linkPlayer(id, tag) {
       $set: {
         tag: tag
       }
-    }
+    };
     await clans.updateOne(filter, updateTag, options);
   } finally {
     client.close();
@@ -43,7 +43,7 @@ async function linkPlayer(id, tag) {
 async function addBuilding(id,  building, startTime, endTime) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const buildings = database.collection('buildings');
     const filter = { id: id, building: building, startTime: startTime };
@@ -54,7 +54,7 @@ async function addBuilding(id,  building, startTime, endTime) {
         startTime: startTime,
         endTime: endTime
       }
-    }
+    };
     await buildings.updateOne(filter, updateTag, options);
   } finally {
     client.close();
@@ -63,7 +63,7 @@ async function addBuilding(id,  building, startTime, endTime) {
 async function getBuildings(id) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const buildings = database.collection('buildings');
     let filter = {};
@@ -90,7 +90,7 @@ async function getBuildings(id) {
 async function deleteBuilding(id, building, startTime, endTime) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const buildings = database.collection('buildings');
     const filter = { id: id, building: building, startTime: startTime, endTime: endTime };
@@ -103,7 +103,7 @@ async function deleteBuilding(id, building, startTime, endTime) {
 async function getPlayer(id) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const players = database.collection('players');
     const filter = { id: id };
@@ -128,7 +128,7 @@ async function getPlayerByTag(tag) {
 async function getClan(id) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
-    await client.connect()
+    await client.connect();
     const database = client.db('bot-of-clans');
     const players = database.collection('clans');
     const filter = { id: id };
@@ -147,4 +147,4 @@ module.exports = {
   getPlayer,
   getPlayerByTag,
   getClan
-}
+};
