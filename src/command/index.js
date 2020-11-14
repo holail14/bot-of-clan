@@ -3,4 +3,5 @@ module.exports = {
   profil: require('./profil'),
   niveau: require('./level'),
   roles: require('./GdcRoles'),
+  rappel: require('./rappelOfConstruction')
 };
