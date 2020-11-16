@@ -24,7 +24,7 @@ function convertToMS(duration) {
 }
 
 function reverseMs(duration) {
-  let string = 0;
+  let string = '';
   if (duration > 86400000) {
     let day = Math.floor(duration / 86400000);
     duration = duration % 86400000;
