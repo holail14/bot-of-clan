@@ -78,7 +78,7 @@ function help(channel) {
   - h pour les heures (avec un 0 devant les chiffres)
   - m pour les minutes (avec un 0 devant les chiffres)
   - s pour les secondes (avec un 0 devant les chiffres)
-exemple : 2d12h30m45s :wink:`);
+exemple : 02d12h08m45s :wink:`);
 }
 
 module.exports = function rappel(message) {
