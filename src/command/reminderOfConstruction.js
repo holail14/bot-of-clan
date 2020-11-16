@@ -72,8 +72,8 @@ function help(channel) {
   channel.send(`\`coc!rappel\` : Affiche un résumé des constructions enregistrées
 
 \`coc!rappel [bâtiment] [durée]\` : ajoute un nouveau rappel.
-- bâtiment : nom de votre batiment (en un seul mot) house
-- durée : durée de construction (attaché) clock1
+- bâtiment : nom de votre batiment (en un seul mot) :house:
+- durée : durée de construction (attaché) :clock1:
   - d pour les jours
   - h pour les heures (avec un 0 devant les chiffres)
   - m pour les minutes (avec un 0 devant les chiffres)
