@@ -71,8 +71,7 @@ async function getBuildings(id) {
       filter = { id: id };
     }
     const options = {
-      sort: { start_date: 1 },
-      projection: { _id: 0 },
+      sort: { endTime: 1 },
     };
 
     const cursor = buildings.find(filter, options);
@@ -100,6 +99,26 @@ async function deleteBuilding(id, building, startTime, endTime) {
   }
 }
 
+async function getPlayers() {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const players = database.collection('players');
+    let filter = {};
+
+    const cursor = players.find(filter);
+    // print a message if no documents were found
+    if ((await cursor.count()) === 0) {
+      return [];
+    }
+    let playersArray = [];
+    await cursor.forEach(item => playersArray.push(item));
+    return playersArray;
+  } finally {
+    await client.close();
+  }
+}
 async function getPlayer(id) {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
@@ -144,6 +163,7 @@ module.exports = {
   addBuilding,
   getBuildings,
   deleteBuilding,
+  getPlayers,
   getPlayer,
   getPlayerByTag,
   getClan

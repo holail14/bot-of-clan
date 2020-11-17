@@ -25,10 +25,36 @@ tag :
 Chacun des tags commencent par un #, il ne faut pas l'inclure. :wink:`);
 }
 
+async function summarize(message) {
+  database.getPlayers().then(async (players) => {
+    let str = `Sur ce serveur discord, les utilisateurs suivants ont liés leur compte discord et leur compte CoC :`
+    let linkedAccount = 0;
+    for (let i in players) {
+      let player = players[i];
+      await message.guild.members.fetch(player.id).then((discordMember) => {
+        if (discordMember) {
+          str += `
+          - ${discordMember.user.username}`
+          linkedAccount++;
+        }
+      }).catch(() => {
+        console.error('Utilisateur inconnu');
+      });
+    }
+    if (linkedAccount > 0) {
+      message.channel.send(str);
+    } else {
+      message.channel.send(`Aucun utilisateurs de ce serveur n'ont lié leur compte`);
+    }
+  });
+}
+
 module.exports = function lier(message) {
   const tokens = message.content.split(' ');
   if (tokens[1] === 'aide') {
     help(message.channel);
+  } else if (tokens[1] === 'recap') {
+    summarize(message)
   } else {
     const type = tokens[1];
     const tag = tokens[2];
