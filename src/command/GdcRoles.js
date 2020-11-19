@@ -5,8 +5,8 @@ const api = require('../model/api');
 function delete_old_role(message, server_id) {
   return new Promise(resolve => {
     setTimeout(() => {
-      let disponible = message.guild.roles.cache.find(role => role.name === 'Disponible'); //get the good role
-      let indisponible = message.guild.roles.cache.find(role => role.name === 'Indisponible'); //get the good role
+      let guerrier = message.guild.roles.cache.find(role => role.name === 'Guerrier'); //get the good role
+      let spectateur = message.guild.roles.cache.find(role => role.name === 'Spectateur'); //get the good role
       database.getClan(server_id).then(async (value) => { //get the clan tag
         if (value && value.tag) {
           await api.clan(value.tag).then(async (response) => { //get info of clan
@@ -15,7 +15,7 @@ function delete_old_role(message, server_id) {
               let tag = member.tag.replace('#', '');
               await database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
                 if (user) {
-                  await editRoles(message, user.id, indisponible, disponible);
+                  await editRoles(message, user.id, spectateur, guerrier);
                 }
               }).catch(console.error);
             }
@@ -34,8 +34,8 @@ function delete_old_role(message, server_id) {
 async function update_roles(message, server_id) {
   await delete_old_role(message, server_id);
   let channel = message.channel;
-  let disponible = message.guild.roles.cache.find(role => role.name === 'Disponible'); //get the good role
-  let indisponible = message.guild.roles.cache.find(role => role.name === 'Indisponible'); //get the good role
+  let guerrier = message.guild.roles.cache.find(role => role.name === 'Guerrier'); //get the good role
+  let spectateur = message.guild.roles.cache.find(role => role.name === 'Spectateur'); //get the good role
   database.getClan(server_id).then((value) => { //get the clan tag
     if (value && value.tag) {
       api.currentwar(value.tag).then(async (response) => { //get info of current war
@@ -44,7 +44,7 @@ async function update_roles(message, server_id) {
           let tag = member.tag.replace('#', '');
           await database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
             if (user) {
-              await editRoles(message, user.id, disponible, indisponible);
+              await editRoles(message, user.id, guerrier, spectateur);
             }
           }).catch(console.error);
         }

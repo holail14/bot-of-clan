@@ -1,4 +1,5 @@
 const database = require('../model/storage');
+const api = require('../model/api');
 
 function clan(server, tag, channel) {
   database.linkClan(server, tag)
@@ -26,27 +27,72 @@ Chacun des tags commencent par un #, il ne faut pas l'inclure. :wink:`);
 }
 
 async function summarize(message) {
-  database.getPlayers().then(async (players) => {
-    let str = `Sur ce serveur discord, les utilisateurs suivants ont liés leur compte discord et leur compte CoC :`
-    let linkedAccount = 0;
+  let clan_id = (await database.getClan(message.guild.id));
+  let membersCoc = (await api.members(clan_id.tag)).data.items;
+  let notLinkedUsers = [];
+  //get members of discord serveur
+  await message.guild.members.fetch().then((members) => {
+    if (members) {
+      for (const member of members.values()) {
+        if (!member.user.bot) {
+          notLinkedUsers.push(member)
+        }
+      }
+    }
+  }).catch(console.error);
+  let linkedUsers = []
+  //get discord member that linked their account
+  await database.getPlayers().then(async (players) => {
     for (let i in players) {
       let player = players[i];
+      //remove player to list of CoC members
+      membersCoc.splice(membersCoc.findIndex(function (i) {
+        return i.tag === '#'+player.tag;
+      }), 1);
+
       await message.guild.members.fetch(player.id).then((discordMember) => {
         if (discordMember) {
-          str += `
-          - ${discordMember.user.username}`
-          linkedAccount++;
+
+          //remove discordMember to not linked list
+          index = notLinkedUsers.indexOf(discordMember)
+          if (index > -1) {
+            notLinkedUsers.splice(index, 1);
+          }
+          //add discordMember to linked list
+          linkedUsers.push(discordMember)
         }
       }).catch(() => {
         console.error('Utilisateur inconnu');
       });
     }
-    if (linkedAccount > 0) {
-      message.channel.send(str);
-    } else {
-      message.channel.send(`Aucun utilisateurs de ce serveur n'ont lié leur compte`);
-    }
   });
+  let str = '';
+  if (linkedUsers.length > 0) {
+    str += `Sur ce serveur discord, les utilisateurs suivants ont liés leur compte discord et leur compte CoC : :grin: :`;
+    linkedUsers.forEach((user) =>
+      str += `
+      - ${user.user.username}`
+    );
+  }
+  if (notLinkedUsers.length > 0) {
+    str += `
+
+Les utilisateurs suivants n'ont **PAS** liés leurs comptes discord et CoC (Vite, aidez vous de la commande \`coc!lier aide\`) :worried: :`;
+    notLinkedUsers.forEach((user) =>
+      str += `
+      - ${user.user.toString()}`
+    );
+  }
+  if (membersCoc.length > 0) {
+    str += `
+
+Les membres de votre clan suivants n'ont pas rejoint le discord (ou n'ont pas lié leur compte) :cry: :`;
+membersCoc.forEach((user) =>
+      str += `
+      - ${user.name}`
+    );
+  }
+  message.channel.send(str);
 }
 
 module.exports = function lier(message) {

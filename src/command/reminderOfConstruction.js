@@ -2,8 +2,8 @@ const database = require('../model/storage');
 
 function convertToMS(duration) {
   let ms = 0;
-  if (duration.includes('d')) {
-    let day = duration.split('d');
+  if (duration.includes('j')) {
+    let day = duration.split('j');
     day = day[0];
     ms += day * 86400000;
   }
@@ -28,24 +28,30 @@ function reverseMs(duration) {
   if (duration > 86400000) {
     let day = Math.floor(duration / 86400000);
     duration = duration % 86400000;
-    string += day + 'd';
+    string += day + 'j';
   }
   if (duration > 3600000) {
     let hour = Math.floor(duration / 3600000);
-    string += hour + 'h';
+    string += (hour < 10 ? '0' : '') + hour + 'h';
     duration = duration % 3600000;
   }
   if (duration > 60000) {
     let minute = Math.floor(duration / 60000);
-    string += minute + 'm';
+    string += (minute < 10 ? '0' : '') + minute + 'm';
     duration = duration % 60000;
   }
   if (duration > 1000) {
     let seconde = Math.floor(duration / 1000);
-    string += seconde + 's';
+    string += (seconde < 10 ? '0' : '') + seconde + 's';
   }
 
   return string;
+}
+
+function getCompleteDate(duration){
+  let date = new Date(duration)
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+  return date.toLocaleDateString('fr-FR', options);
 }
 
 async function reminderOfBuildings(id, author) {
@@ -58,7 +64,7 @@ async function reminderOfBuildings(id, author) {
       let msg = 'Vos bâtiments en construction : ';
       buildings.forEach(building => {
         msg += `
-                - ${building.building}, se termine dans ${reverseMs(building.endTime - Date.now())}.`;
+      - ${building.building}, se termine dans ${reverseMs(building.endTime - Date.now())} (**${getCompleteDate(building.endTime)}**).`;
       });
             
       author.createDM().then(channel => {
@@ -74,11 +80,11 @@ function help(channel) {
 \`coc!rappel [bâtiment] [durée]\` : ajoute un nouveau rappel.
 - bâtiment : nom de votre batiment (en un seul mot) :house:
 - durée : durée de construction (attaché) :clock1:
-  - d pour les jours
+  - j pour les jours
   - h pour les heures (avec un 0 devant les chiffres)
   - m pour les minutes (avec un 0 devant les chiffres)
   - s pour les secondes (avec un 0 devant les chiffres)
-exemple : 02d12h08m45s :wink:`);
+exemple : 02j12h08m45s :wink:`);
 }
 
 module.exports = function rappel(message) {
