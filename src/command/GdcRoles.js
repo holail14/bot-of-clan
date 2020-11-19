@@ -10,12 +10,18 @@ function delete_old_role(message, server_id) {
       database.getClan(server_id).then(async (value) => { //get the clan tag
         if (value && value.tag) {
           await api.clan(value.tag).then(async (response) => { //get info of clan
+            let already_delete = []
             for (let i in response.data.memberList) {
               let member = response.data.memberList[i];
               let tag = member.tag.replace('#', '');
-              await database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
-                if (user) {
-                  await editRoles(message, user.id, spectateur, guerrier);
+              await database.getPlayerByTag(tag).then(async (users) => { //get discord id of coc player
+                if (users) {
+                  users.forEach(async (user) => {
+                    if(!(user.id in already_delete)){
+                      already_delete.push(user.id);
+                      await editRoles(message, user.id, spectateur, guerrier);
+                    }
+                  })
                 }
               }).catch(console.error);
             }
@@ -39,12 +45,18 @@ async function update_roles(message, server_id) {
   database.getClan(server_id).then((value) => { //get the clan tag
     if (value && value.tag) {
       api.currentwar(value.tag).then(async (response) => { //get info of current war
+        let already_update = []
         for (let i in response.data.clan.members) {
           let member = response.data.clan.members[i];
           let tag = member.tag.replace('#', '');
-          await database.getPlayerByTag(tag).then(async (user) => { //get discord id of coc player
-            if (user) {
-              await editRoles(message, user.id, guerrier, spectateur);
+          await database.getPlayerByTag(tag).then(async (users) => { //get discord id of coc player
+            if (users) {
+              users.forEach(async (user) => {
+                if(!(user.id in already_update)){
+                  already_update.push(user.id);
+                  await editRoles(message, user.id, guerrier, spectateur);
+                }
+              })
             }
           }).catch(console.error);
         }

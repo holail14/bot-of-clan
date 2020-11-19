@@ -26,15 +26,28 @@ async function linkPlayer(id, tag) {
   try {
     await client.connect();
     const database = client.db('bot-of-clans');
-    const clans = database.collection('players');
-    const filter = { id: id };
+    const players = database.collection('players');
+    const filter = { id: id, tag: tag };
     const options = { upsert: true };
     const updateTag = {
       $set: {
         tag: tag
       }
     };
-    await clans.updateOne(filter, updateTag, options);
+    await players.updateOne(filter, updateTag, options);
+  } finally {
+    client.close();
+  }
+}
+
+async function unlinkPlayer(id, tag) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const players = database.collection('players');
+    const filter = { id: id, tag: tag };
+    await players.deleteOne(filter);
   } finally {
     client.close();
   }
@@ -126,7 +139,15 @@ async function getPlayer(id) {
     const database = client.db('bot-of-clans');
     const players = database.collection('players');
     const filter = { id: id };
-    return await players.findOne(filter);
+
+    const cursor = players.find(filter);
+    // print a message if no documents were found
+    if ((await cursor.count()) === 0) {
+      return [];
+    }
+    let playersArray = [];
+    await cursor.forEach(item => playersArray.push(item));
+    return playersArray;
   } finally {
     client.close();
   }
@@ -138,7 +159,15 @@ async function getPlayerByTag(tag) {
     const database = client.db('bot-of-clans');
     const players = database.collection('players');
     const filter = { tag: tag };
-    return await players.findOne(filter);
+
+    const cursor = players.find(filter);
+    // print a message if no documents were found
+    if ((await cursor.count()) === 0) {
+      return [];
+    }
+    let playersArray = [];
+    await cursor.forEach(item => playersArray.push(item));
+    return playersArray;
   } finally {
     client.close();
   }
@@ -159,6 +188,7 @@ async function getClan(id) {
 
 module.exports = {
   linkPlayer,
+  unlinkPlayer,
   linkClan,
   addBuilding,
   getBuildings,
