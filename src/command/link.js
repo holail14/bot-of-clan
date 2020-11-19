@@ -12,7 +12,7 @@ function clan(server, tag, channel) {
 function player(user, tag, channel) {
   database.linkPlayer(user, tag)
     .then(() => {
-      channel.send('Vous êtes désormais lié à votre profil !');
+      channel.send('Ce compte CoC est désormais lié à votre profil !');
     })
     .catch(console.error);
 }
@@ -47,7 +47,7 @@ async function summarize(message) {
       let player = players[i];
       //remove player to list of CoC members
       membersCoc.splice(membersCoc.findIndex(function (i) {
-        return i.tag === '#'+player.tag;
+        return i.tag === '#' + player.tag;
       }), 1);
 
       await message.guild.members.fetch(player.id).then((discordMember) => {
@@ -58,8 +58,13 @@ async function summarize(message) {
           if (index > -1) {
             notLinkedUsers.splice(index, 1);
           }
-          //add discordMember to linked list
-          linkedUsers.push(discordMember)
+
+          if (linkedUsers.findIndex(function (i) {
+            return i.user.id === discordMember.user.id;
+          }) == -1) {
+            //add discordMember to linked list
+            linkedUsers.push(discordMember)
+          }
         }
       }).catch(() => {
         console.error('Utilisateur inconnu');
@@ -87,7 +92,7 @@ Les utilisateurs suivants n'ont **PAS** liés leurs comptes discord et CoC (Vite
     str += `
 
 Les membres de votre clan suivants n'ont pas rejoint le discord (ou n'ont pas lié leur compte) :cry: :`;
-membersCoc.forEach((user) =>
+    membersCoc.forEach((user) =>
       str += `
       - ${user.name}`
     );
