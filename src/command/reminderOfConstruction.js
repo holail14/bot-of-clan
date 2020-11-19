@@ -50,7 +50,7 @@ function reverseMs(duration) {
 
 function getCompleteDate(duration){
   let date = new Date(duration)
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone : 'Europe/Paris' };
   return date.toLocaleDateString('fr-FR', options);
 }
 
