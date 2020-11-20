@@ -186,6 +186,27 @@ async function getClan(id) {
   }
 }
 
+async function getAllClans() {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const clans = database.collection('clans');
+    let filter = {};
+
+    const cursor = clans.find(filter);
+    // print a message if no documents were found
+    if ((await cursor.count()) === 0) {
+      return [];
+    }
+    let clansArray = [];
+    await cursor.forEach(item => clansArray.push(item));
+    return clansArray;
+  } finally {
+    client.close();
+  }
+}
+
 module.exports = {
   linkPlayer,
   unlinkPlayer,
@@ -196,5 +217,6 @@ module.exports = {
   getPlayers,
   getPlayer,
   getPlayerByTag,
-  getClan
+  getClan,
+  getAllClans
 };
