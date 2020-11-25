@@ -10,11 +10,25 @@ function send_profile(channel, user_id) {
           api.player(user.tag).then((response) => {
             let profil = `Salut \`${response.data.name}\` !
   Pas mal cet HDV ${response.data.townHallLevel}, alors que tu es seulement niveau ${response.data.expLevel}.
-  Actuellement tu as ${response.data.trophies} trophées, mais tu as réussi à aller jusqu'à ${response.data.bestTrophies} trophées :open_mouth:
-  Tu es ${translation.french(response.data.role)} du clan ${response.data.clan.name}, clan niveau ${response.data.clan.clanLevel}.
-  
+  Actuellement tu as ${response.data.trophies} trophées, mais tu as réussi à aller jusqu'à ${response.data.bestTrophies} trophées :open_mouth:`
+            if (response.data.clan) {
+              profil += `
+  Tu es ${translation.french(response.data.role)} du clan ${response.data.clan.name}, clan niveau ${response.data.clan.clanLevel}.`;
+            } else {
+              profil += `
+  Tu ne fais parti d'aucun clan.`;
+            }
+
+            if (response.data.builderHallLevel) {
+              profil += `
+
   Sur la base des ouvriers, ta maison est niveau ${response.data.builderHallLevel}.
   Tu as gagné ${response.data.versusBattleWins} duels, ce qui te permet d'avoir ${response.data.versusTrophies} trophées.`;
+            }else{
+              profil+= `
+
+  Tu n'as pas encore construit la base des ouvriers.`
+            }
 
             channel.send(profil);
           })
