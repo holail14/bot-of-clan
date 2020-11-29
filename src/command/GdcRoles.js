@@ -103,7 +103,7 @@ module.exports = function profil(message) {
   if (tokens[1]) {
     help(message.channel);
   } else {
-    message.channel.send('Mise à jour des rôles en cours. :arrows_counterclockwise: ');
+    message.channel.send('Mise à jour des rôles en cours :arrows_counterclockwise: ');
     update_roles(message, message.guild.id);
   }
 };
