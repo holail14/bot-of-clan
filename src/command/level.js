@@ -10,31 +10,43 @@ function level(channel, user_id, type) {
           api.player(user.tag).then((response) => {
             let niveau = '';
             if (type == 'troupes') {
-              niveau += `Vraiment pas mal ces troupes \`${response.data.name}\` . Tu as :`;
-              for (let i in response.data.troops) {
-                let troop = response.data.troops[i];
-                if (troop.village == 'home' && !troop.name.includes('Super') && !troop.name.includes('Inferno') && !troop.name.includes('Sneaky')) {
-                  niveau += `
-                        - ${translation.french(troop.name)}, niveau ${troop.level}/${troop.maxLevel}`;
+              if (response.data.troops.length > 0) {
+                niveau += `Vraiment pas mal ces troupes \`${response.data.name}\` . Tu as :`;
+                for (let i in response.data.troops) {
+                  let troop = response.data.troops[i];
+                  if (troop.village == 'home' && !troop.name.includes('Super') && !troop.name.includes('Inferno') && !troop.name.includes('Sneaky')) {
+                    niveau += `
+                          - ${translation.french(troop.name)}, niveau ${troop.level}/${troop.maxLevel}`;
+                  }
                 }
+              } else {
+                niveau += `Comment veux tu te battre sans troupes \`${response.data.name}\` :thinking: . `;
               }
             } else if (type == 'sorts') {
-              niveau += `Tes sorts sont presques aussi puissant que les miens \`${response.data.name}\` :`;
-              for (let i in response.data.spells) {
-                let spell = response.data.spells[i];
-                if (spell.village == 'home') {
-                  niveau += `
+              if (response.data.spells.length > 0) {
+                niveau += `Tes sorts sont presques aussi puissant que les miens \`${response.data.name}\` :`;
+                for (let i in response.data.spells) {
+                  let spell = response.data.spells[i];
+                  if (spell.village == 'home') {
+                    niveau += `
                         - ${translation.french(spell.name)}, niveau ${spell.level}/${spell.maxLevel}`;
+                  }
                 }
+              } else {
+                niveau += `Tu ne possède aucuns sorts \`${response.data.name}\`, tu veux que je t'en apprennes ? :teacher:`;
               }
             } else if (type == 'héros') {
-              niveau += `J'en connais qui rêverais d'avoir des héros aussi puissants \`${response.data.name}\` :`;
-              for (let i in response.data.heroes) {
-                let hero = response.data.heroes[i];
-                if (hero.village == 'home') {
-                  niveau += `
+              if (response.data.heroes.length > 0) {
+                niveau += `J'en connais qui rêverais d'avoir des héros aussi puissants \`${response.data.name}\` :`;
+                for (let i in response.data.heroes) {
+                  let hero = response.data.heroes[i];
+                  if (hero.village == 'home') {
+                    niveau += `
                         - ${translation.french(hero.name)}, niveau ${hero.level}/${hero.maxLevel}`;
+                  }
                 }
+              } else {
+                niveau += `Tu n'as aucuns héros \`${response.data.name}\`, tu veux le 06 de la reine ? :spy:`;
               }
             }
             channel.send(niveau);

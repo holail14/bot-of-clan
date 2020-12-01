@@ -28,6 +28,10 @@ function currentwar (tag) {
   return fetch(`clans/%23${tag}/currentwar`);
 }
 
+function currentleague (tag) {
+  return fetch(`clans/%23${tag}/currentwar/leaguegroup`);
+}
+
 function player (tag) {
   return fetch(`players/%23${tag}`);
 }
@@ -37,5 +41,6 @@ module.exports = {
   members,
   warlog,
   currentwar,
+  currentleague,
   player
 };
