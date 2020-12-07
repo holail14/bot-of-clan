@@ -1,14 +1,12 @@
 const database = require('../model/storage');
 
 
-
-
 function getCompos(message, hdv) {
     database.getCompo(hdv).then((compositions) => {
         if (compositions.length == 0) {
             message.channel.send(`Aucune compo n'est disponible pour l'hdv${hdv}`)
         } else {
-            let msg = `Compos disponibles pour l'hdv${hdv} :`;
+            let msg = `Compos conseillés pour l'hdv${hdv} :`;
             compositions.forEach(compo => {
                 msg += `
               - difficulté : **${compo.difficulty}**/3, compo : ${compo.compo}`;
