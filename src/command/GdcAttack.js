@@ -1,5 +1,6 @@
 const database = require('../model/storage');
 const api = require('../model/api');
+const translation = require('../translation/translation');
 
 async function remainingAttacks(message, server_id) {
     let channel = message.channel;
@@ -59,7 +60,7 @@ async function remainingAttacks(message, server_id) {
                     channel.send(attacks);
                 }
             }
-            ).catch(console.error);
+            ).catch((error) => { console.error(error); channel.send(translation.french(error.response.data.message)) });
         } else {
             helpUndefinedTag(channel);
         }

@@ -6,5 +6,6 @@ module.exports = {
   niveau: require('./level'),
   roles: require('./GdcRoles'),
   gdc: require('./GdcAttack'),
-  rappel: require('./reminderOfConstruction')
+  rappel: require('./reminderOfConstruction'),
+  compo: require('./compo'),
 };

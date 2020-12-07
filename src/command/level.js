@@ -14,7 +14,7 @@ function level(channel, user_id, type) {
                 niveau += `Vraiment pas mal ces troupes \`${response.data.name}\` . Tu as :`;
                 for (let i in response.data.troops) {
                   let troop = response.data.troops[i];
-                  if (troop.village == 'home' && !troop.name.includes('Super') && !troop.name.includes('Inferno') && !troop.name.includes('Sneaky')) {
+                  if (troop.village == 'home' && !troop.name.includes('Super') && !troop.name.includes('Inferno') && !troop.name.includes('Sneaky') && troop.name != 'Ice Hound') {
                     niveau += `
                           - ${translation.french(troop.name)}, niveau ${troop.level}/${troop.maxLevel}`;
                   }
@@ -51,7 +51,7 @@ function level(channel, user_id, type) {
             }
             channel.send(niveau);
           })
-            .catch((error) => { console.log(error); });
+            .catch((error) => { console.log(error); channel.send(translation.french(error.response.data.message)) });
         }
       })
     } else {

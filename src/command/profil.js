@@ -32,7 +32,7 @@ function send_profile(channel, user_id) {
 
             channel.send(profil);
           })
-            .catch((error) => { console.log(error); });
+            .catch((error) => { console.log(error); channel.send(translation.french(error.response.data.message)) });
         }
       })
     } else {

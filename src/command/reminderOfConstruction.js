@@ -54,7 +54,7 @@ function getCompleteDate(duration){
   return date.toLocaleDateString('fr-FR', options);
 }
 
-async function reminderOfBuildings(id, author) {
+function reminderOfBuildings(id, author) {
   database.getBuildings(id).then((buildings) => {
     if (buildings.length == 0) {
       author.createDM().then(channel => {

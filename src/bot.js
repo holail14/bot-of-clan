@@ -28,9 +28,8 @@ client.on('message', handleMessage);
 
 function handleMessage(message) {
   if (! message.author.bot )
-    message.content = message.content.toLowerCase();
-    if (message.content.startsWith('coc!')) {
-      let command = message.content.split(' ')[0].substr(4);
+    if (message.content.toLowerCase().startsWith('coc!')) {
+      let command = message.content.split(' ')[0].substr(4).toLowerCase();
       if (command in commands)
         commands[command](message);
     }

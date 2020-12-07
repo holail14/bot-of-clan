@@ -112,6 +112,53 @@ async function deleteBuilding(id, building, startTime, endTime) {
   }
 }
 
+async function addCompo(hdv, difficulty, compo) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const compositions = database.collection('compos');
+    const filter = { hdv: hdv, difficulty: difficulty, compo: compo };
+    const options = { upsert: true };
+    const updateTag = {
+      $set: {
+        hdv: hdv,
+        difficulty: difficulty,
+        compo: compo
+      }
+    };
+    await compositions.updateOne(filter, updateTag, options);
+  } finally {
+    client.close();
+  }
+}
+async function getCompo(hdv) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const compositions = database.collection('compos');
+    let filter = {};
+    if(hdv != ''){
+      filter = { hdv: hdv };
+    }
+    const options = {
+      sort: { difficulty: 1 },
+    };
+
+    const cursor = compositions.find(filter, options);
+    // print a message if no documents were found
+    if ((await cursor.count()) === 0) {
+      return [];
+    }
+    let compositionsArray = [];
+    await cursor.forEach(item => compositionsArray.push(item));
+    return compositionsArray;
+  } finally {
+    await client.close();
+  }
+}
+
 async function getPlayers() {
   const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
   try {
@@ -214,6 +261,8 @@ module.exports = {
   addBuilding,
   getBuildings,
   deleteBuilding,
+  addCompo,
+  getCompo,
   getPlayers,
   getPlayer,
   getPlayerByTag,

@@ -130,6 +130,12 @@ function french(en) {
   if(en == 'Bat Spell'){
     return 'Sort de Chauve-souris';
   }
+
+  //Other
+  if(en == 'API is currently in maintenance, please come back later'){
+    return 'L\'API est en cours de maintenance, merci de réessayer plus tard :sob:';
+  }
+
   return en;
 }
 
