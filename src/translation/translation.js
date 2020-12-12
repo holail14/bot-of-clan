@@ -27,6 +27,9 @@ function french(en) {
   if(en == 'Royal Champion'){
     return 'Championne Royale';
   }
+  if(en == 'Battle Machine'){
+    return 'Machine de combat';
+  }
 
   // -------- Troops --------
   if(en == 'Barbarian'){
@@ -94,6 +97,34 @@ function french(en) {
   }
   if(en == 'Headhunter'){
     return 'Chasseuse de têtes';
+  }
+  // -------- Builder Base Troops --------
+  if(en == 'Raged Barbarian'){
+    return 'Barbare enragé';
+  }
+  if(en == 'Sneaky Archer'){
+    return 'Archère furtive';
+  }
+  if(en == 'Beta Minion'){
+    return 'Bêta-gargouille';
+  }
+  if(en == 'Boxer Giant'){
+    return 'Géant boxeur';
+  }
+  if(en == 'Bomber'){
+    return 'Bombardier';
+  }
+  if(en == 'Cannon Cart'){
+    return 'Charette à cannon';
+  }
+  if(en == 'Drop Ship'){
+    return 'Ballon livreur';
+  }
+  if(en == 'Night Witch'){
+    return 'Sorcière de la nuit';
+  }
+  if(en == 'Hog Glider'){
+    return 'Chevaucheur du ciel';
   }
 
   // -------- Spells --------

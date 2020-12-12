@@ -12,11 +12,25 @@ function level(channel, user_id, type) {
             if (type == 'troupes') {
               if (response.data.troops.length > 0) {
                 niveau += `Vraiment pas mal ces troupes \`${response.data.name}\` . Tu as :`;
+                let builderBaseTroops = [];
                 for (let i in response.data.troops) {
                   let troop = response.data.troops[i];
-                  if (troop.village == 'home' && !troop.name.includes('Super') && !troop.name.includes('Inferno') && !troop.name.includes('Sneaky') && troop.name != 'Ice Hound') {
-                    niveau += `
+                  if ((troop.name == 'Super P.E.K.K.A') || (!troop.name.includes('Super') && !troop.name.includes('Inferno') && troop.name != 'Ice Hound' && !troop.name != 'Sneaky Gobelin')) {
+                    if (troop.village == 'home') {
+                      niveau += `
                           - ${translation.french(troop.name)}, niveau ${troop.level}/${troop.maxLevel}`;
+                    } else {
+                      builderBaseTroops.push(troop);
+                    }
+                  }
+                }
+                if (builderBaseTroops.length > 0) {
+                  niveau += `
+              Sur la base des ouvriers, tu as :`;
+                  for (let y in builderBaseTroops) {
+                    let builderTroop = builderBaseTroops[y];
+                    niveau += `
+                          - ${translation.french(builderTroop.name)}, niveau ${builderTroop.level}/${builderTroop.maxLevel}`;
                   }
                 }
               } else {
@@ -40,16 +54,14 @@ function level(channel, user_id, type) {
                 niveau += `J'en connais qui rêverais d'avoir des héros aussi puissants \`${response.data.name}\` :`;
                 for (let i in response.data.heroes) {
                   let hero = response.data.heroes[i];
-                  if (hero.village == 'home') {
-                    niveau += `
+                  niveau += `
                         - ${translation.french(hero.name)}, niveau ${hero.level}/${hero.maxLevel}`;
-                  }
                 }
               } else {
                 niveau += `Tu n'as aucuns héros \`${response.data.name}\`, tu veux le 06 de la reine ? :spy:`;
               }
             }
-            channel.send(niveau);
+            channel.send(niveau, { split: true });
           })
             .catch((error) => { console.log(error); channel.send(translation.french(error.response.data.message)) });
         }
