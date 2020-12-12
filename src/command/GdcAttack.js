@@ -57,7 +57,7 @@ async function remainingAttacks(message, server_id) {
                 - ${member.name} ${discordMemberString}, il faut que tu fasses tes **deux** attaques ! :rage:`;
                         }
                     }
-                    channel.send(attacks);
+                    channel.send(attacks,{split:true});
                 }
             }
             ).catch((error) => { console.error(error); channel.send(translation.french(error.response.data.message)) });

@@ -68,7 +68,14 @@ async function update_gdc_roles(message, server_id) {
           channel.send(update);
         }
       }
-      ).catch((error) => { console.error(error); channel.send(translation.french(error.response.data.message)) });
+      ).catch((error) => {
+        console.error(error);
+        if (error.response.data.message) {
+          channel.send(translation.french(error.response.data.message))
+        } else {
+          channel.send(`Aucune LDC n'est en cours.`);
+        }
+      });
     } else {
       helpUndefinedTag(channel);
     }
@@ -110,7 +117,14 @@ async function update_ldc_roles(message, server_id) {
           channel.send(update);
         }
       }
-      ).catch((error) => { console.error(error); channel.send(translation.french(error.response.data.message)) });
+      ).catch((error) => {
+        console.error(error);
+        if (error.response.data.message) {
+          channel.send(translation.french(error.response.data.message))
+        } else {
+          channel.send(`Aucune LDC n'est en cours.`);
+        }
+      });
     } else {
       helpUndefinedTag(channel);
     }
@@ -180,10 +194,10 @@ function help(channel) {
 
 module.exports = function profil(message) {
   const tokens = message.content.split(' ');
-  if (tokens[1] == 'gdc') {
+  if (tokens[1].toLowerCase() == 'gdc') {
     message.channel.send('Mise à jour des rôles en cours pour la GDC :arrows_counterclockwise: ');
     update_gdc_roles(message, message.guild.id);
-  } else if (tokens[1] == 'ldc') {
+  } else if (tokens[1].toLowerCase() == 'ldc') {
     message.channel.send('Mise à jour des rôles en cours pour la LDC :arrows_counterclockwise: ');
     update_ldc_roles(message, message.guild.id);
   } else {

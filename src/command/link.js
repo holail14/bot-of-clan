@@ -97,7 +97,7 @@ Les membres de votre clan suivants n'ont pas rejoint le discord (ou n'ont pas li
       - ${user.name}`
     );
   }
-  message.channel.send(str);
+  message.channel.send(str, {split : true});
 }
 
 module.exports = function lier(message) {
