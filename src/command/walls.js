@@ -18,7 +18,7 @@ function wallUpgrade(channel, nb, level) {
 async function wallsUpgrade(channel, nb, levelStart, levelEnd) {
     let goldCost = [];
     let elixirAndGoldCost = [];
-    for (let i = levelStart; i <= levelEnd; i++) {
+    for (let i = parseFloat(levelStart) + 1; i <= levelEnd; i++) {
         await database.getWall(i).then((wall) => {
             let cost = wall.cost * nb;
             if (wall.elixirUpgrade) {
@@ -32,7 +32,11 @@ async function wallsUpgrade(channel, nb, levelStart, levelEnd) {
         goldCost = goldCost.reduce((a, b) => a + b, 0);
         elixirAndGoldCost = elixirAndGoldCost.reduce((a, b) => a + b, 0);
         let total = goldCost + elixirAndGoldCost;
-        channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or + ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Elixir ou Or (soit ${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+        if (goldCost > 0) {
+            channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or + ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Elixir ou Or (soit ${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+        } else {
+            channel.send(`Il te faut ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Elixir ou Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+        }
     } else {
         goldCost = goldCost.reduce((a, b) => a + b, 0);
         channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
@@ -58,7 +62,7 @@ module.exports = function lier(message) {
         if (typeof nb === 'undefined' || typeof levelStart === 'undefined')
             help(message.channel);
         else {
-            if (levelStart < 1 || levelStart > 14 || levelEnd < 1 || levelEnd > 14) {
+            if (levelStart < 0 || levelStart > 14 || levelEnd < 1 || levelEnd > 14) {
                 message.channel.send(`Ce niveau de mur n'existe pas :upside_down:`);
             } else {
                 if (typeof levelEnd === 'undefined') wallUpgrade(message.channel, nb, levelStart);
