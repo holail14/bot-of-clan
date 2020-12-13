@@ -7,9 +7,9 @@ function wallUpgrade(channel, nb, level) {
         } else {
             let cost = wall.cost * nb;
             if (wall.elixirUpgrade) {
-                channel.send(`Il te faut ${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or ou Elixir pour améliorer ${nb} murs au niveau ${level} :money_mouth: `)
+                channel.send(`Il te faut ${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or pour améliorer ${nb} murs au niveau ${level} :money_mouth: `)
             } else {
-                channel.send(`Il te faut ${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or pour améliorer ${nb} murs au niveau ${level} :money_mouth: `)
+                channel.send(`Il te faut ${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or pour améliorer ${nb} murs au niveau ${level} :money_mouth: `)
             }
         }
     }).catch(console.error);
@@ -33,13 +33,13 @@ async function wallsUpgrade(channel, nb, levelStart, levelEnd) {
         elixirAndGoldCost = elixirAndGoldCost.reduce((a, b) => a + b, 0);
         let total = goldCost + elixirAndGoldCost;
         if (goldCost > 0) {
-            channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or + ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Elixir ou Or (soit ${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+            channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or + ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or (soit ${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
         } else {
-            channel.send(`Il te faut ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Elixir ou Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+            channel.send(`Il te faut ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
         }
     } else {
         goldCost = goldCost.reduce((a, b) => a + b, 0);
-        channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+        channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
     }
 }
 
