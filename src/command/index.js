@@ -8,4 +8,5 @@ module.exports = {
   gdc: require('./GdcAttack'),
   rappel: require('./reminderOfConstruction'),
   compo: require('./compo'),
+  murs: require('./walls'),
 };

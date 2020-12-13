@@ -97,7 +97,7 @@ Les membres de votre clan suivants n'ont pas rejoint le discord (ou n'ont pas li
       - ${user.name}`
     );
   }
-  message.channel.send(str, {split : true});
+  message.channel.send(str, { split: true });
 }
 
 module.exports = function lier(message) {
@@ -105,7 +105,11 @@ module.exports = function lier(message) {
   if (tokens[1] === 'aide') {
     help(message.channel);
   } else if (tokens[1] === 'recap') {
-    summarize(message)
+    if (!message.member.roles.cache.find(r => r.name === "Chef")) {
+      message.channel.send(`Seul un vrai **Chef** peut utiliser cette commande :smiling_imp: `);
+    } else {
+      summarize(message)
+    }
   } else {
     const type = tokens[1];
     const tag = tokens[2];

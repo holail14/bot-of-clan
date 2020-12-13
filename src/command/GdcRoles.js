@@ -193,14 +193,22 @@ function help(channel) {
 
 
 module.exports = function profil(message) {
-  const tokens = message.content.split(' ');
-  if (tokens[1].toLowerCase() == 'gdc') {
-    message.channel.send('Mise à jour des rôles en cours pour la GDC :arrows_counterclockwise: ');
-    update_gdc_roles(message, message.guild.id);
-  } else if (tokens[1].toLowerCase() == 'ldc') {
-    message.channel.send('Mise à jour des rôles en cours pour la LDC :arrows_counterclockwise: ');
-    update_ldc_roles(message, message.guild.id);
+  if (!message.member.roles.cache.find(r => r.name === "Chef")) {
+    message.channel.send(`Seul un vrai **Chef** peut utiliser cette commande :smiling_imp: `);
   } else {
-    help(message.channel);
+    const tokens = message.content.split(' ');
+    if (tokens[1] === undefined) {
+      help(message.channel);
+    } else {
+      if (tokens[1].toLowerCase() == 'gdc') {
+        message.channel.send('Mise à jour des rôles en cours pour la GDC :arrows_counterclockwise: ');
+        update_gdc_roles(message, message.guild.id);
+      } else if (tokens[1].toLowerCase() == 'ldc') {
+        message.channel.send('Mise à jour des rôles en cours pour la LDC :arrows_counterclockwise: ');
+        update_ldc_roles(message, message.guild.id);
+      } else {
+        help(message.channel);
+      }
+    }
   }
 };

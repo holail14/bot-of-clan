@@ -254,6 +254,20 @@ async function getAllClans() {
   }
 }
 
+
+async function getWall(level) {
+  const client = new MongoClient(uri, { useUnifiedTopology: true, useNewUrlParser: true });
+  try {
+    await client.connect();
+    const database = client.db('bot-of-clans');
+    const walls = database.collection('walls');
+    const filter = { level: parseFloat(level) };
+    return await walls.findOne(filter);
+  } finally {
+    client.close();
+  }
+}
+
 module.exports = {
   linkPlayer,
   unlinkPlayer,
@@ -267,5 +281,6 @@ module.exports = {
   getPlayer,
   getPlayerByTag,
   getClan,
-  getAllClans
+  getAllClans,
+  getWall
 };

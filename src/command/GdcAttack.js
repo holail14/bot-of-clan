@@ -57,7 +57,7 @@ async function remainingAttacks(message, server_id) {
                 - ${member.name} ${discordMemberString}, il faut que tu fasses tes **deux** attaques ! :rage:`;
                         }
                     }
-                    channel.send(attacks,{split:true});
+                    channel.send(attacks, { split: true });
                 }
             }
             ).catch((error) => { console.error(error); channel.send(translation.french(error.response.data.message)) });
@@ -79,10 +79,14 @@ function help(channel) {
 
 
 module.exports = function attacks(message) {
-    const tokens = message.content.split(' ');
-    if (tokens[1]) {
-        help(message.channel);
+    if (!message.member.roles.cache.find(r => r.name === "Chef")) {
+        message.channel.send(`Seul un vrai **Chef** peut utiliser cette commande :smiling_imp: `);
     } else {
-        remainingAttacks(message, message.guild.id);
+        const tokens = message.content.split(' ');
+        if (tokens[1]) {
+            help(message.channel);
+        } else {
+            remainingAttacks(message, message.guild.id);
+        }
     }
 };

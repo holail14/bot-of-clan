@@ -7,6 +7,7 @@ module.exports = function apropos(message) {
     \`coc!roles\` : Mise à jour des rôles avec la guerre de clan en cours.
     \`coc!gdc\` : Résumé des attaques de la guerre de clan en cours.
     \`coc!rappel aide\` : Rappel de la construction de vos bâtiments.
+    \`coc!murs aide\` : Vous aimeriez savoir combien de ressources il vous faut pour up vos murs ?.
     \`coc!compo : compos conseillé pour GDC.`);
     
 //Bot réalisé par Clément Vétillard et Kévin Leuchart, avec les idées d'Erwann Le Roux. :grinning:`);
