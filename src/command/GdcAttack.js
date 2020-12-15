@@ -7,7 +7,7 @@ async function remainingAttacks(message, server_id) {
     database.getClan(server_id).then((value) => { //get the clan tag
         if (value && value.tag) {
             api.currentwar(value.tag).then(async (response) => { //get info of current war
-                if (response.data.state == 'notInWar') {
+                if (response.data.state == 'notInWar' || response.data.state == 'warEnded') {
                     channel.send(`Aucune GDC n'est en cours.`);
                 } else {
                     let attacks = `Résumé des attaques de la GdC contre ${response.data.opponent.name} :`;
@@ -43,14 +43,14 @@ async function remainingAttacks(message, server_id) {
                                     countStars += member.attacks[index].stars
                                 }
                                 attacks += `
-                - ${member.name} ${discordMemberString}, bien joué pour tes ${countStars} étoiles pour ta première attaque, mais il t'en reste **une** autre attaque à effectuer ! :thinking:`;
+                - ${member.name} ${discordMemberString}, ${countStars >= 2 ? 'pas mal' : 'pas ouf'} tes ${countStars} étoiles pour ta première attaque, mais il t'en reste **une** autre attaque à effectuer ! :thinking:`;
                             } else {
                                 let countStars = 0;
                                 for (let index in member.attacks) {
                                     countStars += member.attacks[index].stars
                                 }
                                 attacks += `
-                - ${member.name}, bien joué pour tes ${countStars} étoiles en deux attaques ! :partying_face:`;
+                - ${member.name}, ${countStars >= 4 ? 'bien joué pour' : 'trop nul'} tes ${countStars} étoiles en deux attaques ! :${countStars >= 4 ? 'partying_face' : 'face_with_symbols_over_mouth'}:`;
                             }
                         } else {
                             attacks += `

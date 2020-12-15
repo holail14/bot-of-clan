@@ -32,14 +32,20 @@ async function wallsUpgrade(channel, nb, levelStart, levelEnd) {
         goldCost = goldCost.reduce((a, b) => a + b, 0);
         elixirAndGoldCost = elixirAndGoldCost.reduce((a, b) => a + b, 0);
         let total = goldCost + elixirAndGoldCost;
+        let reduce = total * 0.8;
         if (goldCost > 0) {
-            channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or + ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or (soit ${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+            channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or + ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or (soit ${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth:
+(tu as 20% de réduction avec le pass or, ce qui reviens à ${reduce.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) #ad`)
         } else {
-            channel.send(`Il te faut ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+            reduce = elixirAndGoldCost * 0.8;
+            channel.send(`Il te faut ${elixirAndGoldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Elixir ou d'Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: 
+(tu as 20% de réduction avec le pass or, ce qui reviens à ${reduce.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) #ad`)
         }
     } else {
         goldCost = goldCost.reduce((a, b) => a + b, 0);
-        channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth: `)
+        let reduce = goldCost * 0.8;
+        channel.send(`Il te faut ${goldCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} d'Or pour améliorer ${nb} murs du niveau ${levelStart} au niveau ${levelEnd} :money_mouth:
+(tu as 20% de réduction avec le pass or, ce qui reviens à ${reduce.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}) #ad`)
     }
 }
 
