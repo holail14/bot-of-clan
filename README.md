@@ -1,4 +1,4 @@
-![Tests](https://github.com/clementvtrd/bot-of-clans/workflows/Tests/badge.svg)
+![Tests](https://github.com/holail14/bot-of-clans/workflows/Tests/badge.svg)
 ![Discord](https://img.shields.io/discord/774740325469650976?label=Discord)
 
 # Bot of clans
