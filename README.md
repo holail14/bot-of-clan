@@ -1,6 +1,3 @@
-![Tests](https://github.com/holail14/bot-of-clans/workflows/Tests/badge.svg)
-![Discord](https://img.shields.io/discord/774740325469650976?label=Discord)
-
 # Bot of clans
 
 Un bot vous permettant d'avoir diverses informations sur votre clan ainsi que certaines informations en temps réel.
